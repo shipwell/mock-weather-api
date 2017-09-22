@@ -1,7 +1,7 @@
 # mock-weather-api
 Mock API for getting weather data
 
-Setup
+### Setup
 ```
 virtualenv env
 source env/bin/activate
