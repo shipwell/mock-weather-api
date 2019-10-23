@@ -1,6 +1,6 @@
 import os
 import json
-from flask import Flask, request, make_response
+from flask import Flask, request, make_response, jsonify
 app = Flask(__name__)
 
 ACCUWEATHER = None
@@ -15,7 +15,7 @@ def accuweather():
         lat, lon = float(request.args.get(latitude_param)), float(request.args.get(longitude_param))
     except:
         return make_response('Must provide the "{:s}" and "{:s}" query params as float values\n'.format(latitude_param, longitude_param), 400)
-    return json.dumps(ACCUWEATHER, indent=2)
+    return jsonify(ACCUWEATHER)
 
 @app.route('/noaa', methods=['GET'])
 def noaa():
@@ -25,7 +25,7 @@ def noaa():
         lat, lon = map(float, request.args.get(param_name).split(','))
     except:
         return make_response('Must provide the "{:s}" query parameter in the form "30.2335595,-97.7797051"\n'.format(param_name), 400)
-    return json.dumps(NOAA, indent=2)
+    return jsonify(NOAA)
 
 @app.route('/weatherdotcom', methods=['POST'])
 def weatherdotcom():
@@ -37,8 +37,7 @@ def weatherdotcom():
         lon = float(json_data[lon_param])
     except:
         return make_response('Must provide the "{:s}" and "{:s}" query params as float values\n'.format(lat_param, lon_param), 400)
-    return json.dumps(WEATHERDOTCOM, indent=2)
-
+    return jsonify(WEATHERDOTCOM)
 
 data_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'data')
 
